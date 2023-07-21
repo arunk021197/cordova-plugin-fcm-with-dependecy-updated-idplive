@@ -42,7 +42,7 @@
 		<preference name="ANDROID_GRADLE_TOOLS_VERSION" default="4.1.0" />
 
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
-			<activity android:name="com.gae.scaffolder.plugin.FCMPluginActivity" android:launchMode="singleTop">
+			<activity android:name="com.gae.scaffolder.plugin.FCMPluginActivity" android:launchMode="singleTop" android:exported="true">
 				<intent-filter>
 					<action android:name="FCM_PLUGIN_ACTIVITY" />
 					<category android:name="android.intent.category.DEFAULT" />
@@ -50,7 +50,7 @@
 			</activity>
 			<service 
 				android:name="com.gae.scaffolder.plugin.MyFirebaseMessagingService"
-				android:stopWithTask="false">
+				android:stopWithTask="false" android:exported="true">
 				<intent-filter>
 					<action android:name="com.google.firebase.MESSAGING_EVENT"/>
 				</intent-filter>
@@ -76,10 +76,14 @@
 		<source-file src="src/android/com/gae/scaffolder/plugin/FCMPluginActivity.java" target-dir="src/com/gae/scaffolder/plugin" />
 		<source-file src="src/android/com/gae/scaffolder/plugin/interfaces/OnFinishedListener.java" target-dir="src/com/gae/scaffolder/plugin/interfaces" />
 		<source-file src="src/android/com/gae/scaffolder/plugin/interfaces/TokenListeners.java" target-dir="src/com/gae/scaffolder/plugin/interfaces" />
+		<!-- COPY FCM CONFIG FILES TO PLATFORM BEFORE COMPILING -->
+	<hook src="scripts/copy_google_service_files.js" type="after_prepare" />
+	<hook src="scripts/copy_google_service_files.js" type="after_plugin_add" />
+	<hook src="scripts/install_ionic_dependencies.bat" type="after_plugin_install" />
 	</platform>
 
 	<!-- IOS CONFIGURATION -->
-	<platform name="ios">
+	<!--<platform name="ios">
 		<preference name="IOS_FIREBASE_MESSAGING_VERSION" default="~> 7.4.0" />
 		<config-file target="config.xml" parent="/*">
 			<feature name="FCMPlugin">
@@ -87,7 +91,7 @@
 			</feature>
 		</config-file>
 
-		<!-- ENABLE PUSH CAPABILITY -->
+		
 		<config-file parent="aps-environment" target="*/Entitlements-Debug.plist">
 			<string>development</string>
 		</config-file>
@@ -117,7 +121,7 @@
 		<header-file src="src/ios/FCMNotificationCenterDelegate.h" />
 		<source-file src="src/ios/FCMNotificationCenterDelegate.m" />
 
-		<!-- FIREBASE COCOAPODS-->
+		
 		<podspec>
 			<config>
                 <source url="https://github.com/CocoaPods/Specs.git"/>
@@ -126,10 +130,7 @@
 				<pod name="Firebase/Messaging" spec="$IOS_FIREBASE_MESSAGING_VERSION"/>
 			</pods>
 		</podspec>
-	</platform>
+	</platform> -->
 
-	<!-- COPY FCM CONFIG FILES TO PLATFORM BEFORE COMPILING -->
-	<hook src="scripts/copy_google_service_files.js" type="after_prepare" />
-	<hook src="scripts/copy_google_service_files.js" type="after_plugin_add" />
-	<hook src="scripts/install_ionic_dependencies.bat" type="after_plugin_install" />
+	
 </plugin>
