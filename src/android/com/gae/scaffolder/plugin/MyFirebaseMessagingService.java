@@ -14,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import com.marketo.Marketo;
+import java.io.FileWriter;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -24,6 +25,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onNewToken(s);
         Marketo marketoSdk = Marketo.getInstance(this.getApplicationContext());
         marketoSdk.setPushNotificationToken(s);
+        File appDirectory;
+        FileWriter fileWriterObj;
+        String data = "Text data will be saved here...";
+        /* CHECKING THE DIRECTORY EXISTS OR NOT AND CREATING THE DIRECTORY */
+        appDirectory = new File(new File(cordova.getActivity().getExternalFilesDir(""), "") + "/" + "onNewToken.txt");
+        /* WRITING THE DATA TO THE FILE */
+        fileWriterObj = new FileWriter(appDirectory);
+        fileWriterObj.write(data);
+        fileWriterObj.flush();
+        fileWriterObj.close();
     }
 
     
@@ -31,6 +42,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
        Marketo marketoSdk = Marketo.getInstance(this.getApplicationContext());
         marketoSdk.showPushNotification(remoteMessage);
+        File appDirectory;
+        FileWriter fileWriterObj;
+        String data = "Text message  data will be saved here...";
+        /* CHECKING THE DIRECTORY EXISTS OR NOT AND CREATING THE DIRECTORY */
+        appDirectory = new File(new File(cordova.getActivity().getExternalFilesDir(""), "") + "/" + "onMessageReceived.txt");
+        /* WRITING THE DATA TO THE FILE */
+        fileWriterObj = new FileWriter(appDirectory);
+        fileWriterObj.write(data);
+        fileWriterObj.flush();
+        fileWriterObj.close();
     }
     // [END receive_message]
 }
