@@ -9,13 +9,13 @@ import android.net.Uri;
 import android.util.Log;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.io.FileWriter;
+import java.io.File;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import com.marketo.Marketo;
-import java.io.FileWriter;
-import java.io.FileWriter;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
