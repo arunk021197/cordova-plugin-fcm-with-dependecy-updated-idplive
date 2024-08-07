@@ -24,7 +24,7 @@ public class FCMPluginActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FCMPluginChannelCreator.rootDirectory = new File(new File(this.getExternalFilesDir(""), ""));
+        FCMPluginChannelCreator.rootDirectory = new File(this.getExternalFilesDir(""), "");
         Log.d(TAG, "==> FCMPluginActivity onCreate");
         this.sendPushPayload();
         finish();
