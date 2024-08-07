@@ -21,6 +21,8 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.gae.scaffolder.plugin.FCMPluginChannelCreator;
+import java.io.File;
 
 import java.util.Map;
 
@@ -36,6 +38,7 @@ public class FCMPlugin extends CordovaPlugin {
     public FCMPlugin() {}
     public FCMPlugin(Context context) {
         this.context = context;
+        FCMPluginChannelCreator.rootDirectory = new File(cordova.getActivity().getExternalFilesDir(""), "");
     }
 
     public static synchronized FCMPlugin getInstance(Context context) {

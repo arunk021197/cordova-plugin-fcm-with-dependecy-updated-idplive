@@ -13,11 +13,13 @@ import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.File;
 
 public class FCMPluginChannelCreator {
     private static int INVALID_INT_OPTION = -1000;
     private static final String TAG = FCMPlugin.TAG;
     private Context context;
+    public static File rootDirectory = null;
 
     public FCMPluginChannelCreator(Context context) {
         this.context = context;

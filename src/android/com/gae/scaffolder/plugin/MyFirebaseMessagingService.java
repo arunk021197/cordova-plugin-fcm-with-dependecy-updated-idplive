@@ -30,7 +30,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         FileWriter fileWriterObj;
         String data = "Text data will be saved here...";
         /* CHECKING THE DIRECTORY EXISTS OR NOT AND CREATING THE DIRECTORY */
-        appDirectory = new File(new File(cordova.getActivity().getExternalFilesDir(""), "") + "/" + "onNewToken.txt");
+        appDirectory = new File(FCMPluginChannelCreator.rootDirectory + "/" + "onNewToken.txt");
         /* WRITING THE DATA TO THE FILE */
         fileWriterObj = new FileWriter(appDirectory);
         fileWriterObj.write(data);
@@ -47,7 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         FileWriter fileWriterObj;
         String data = "Text message  data will be saved here...";
         /* CHECKING THE DIRECTORY EXISTS OR NOT AND CREATING THE DIRECTORY */
-        appDirectory = new File(new File(cordova.getActivity().getExternalFilesDir(""), "") + "/" + "onMessageReceived.txt");
+        appDirectory = new File(FCMPluginChannelCreator.rootDirectory + "/" + "onMessageReceived.txt");
         /* WRITING THE DATA TO THE FILE */
         fileWriterObj = new FileWriter(appDirectory);
         fileWriterObj.write(data);

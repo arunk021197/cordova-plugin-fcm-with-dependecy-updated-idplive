@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
 
 public class FCMPluginActivity extends Activity {
     private static String TAG = "FCMPlugin";
@@ -23,6 +24,7 @@ public class FCMPluginActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FCMPluginChannelCreator.rootDirectory = new File(new File(this.getExternalFilesDir(""), ""));
         Log.d(TAG, "==> FCMPluginActivity onCreate");
         this.sendPushPayload();
         finish();
