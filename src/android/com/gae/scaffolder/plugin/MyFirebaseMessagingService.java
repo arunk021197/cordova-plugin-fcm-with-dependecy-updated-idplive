@@ -38,7 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             fileWriterObj.flush();
             fileWriterObj.close();
         } catch(IOException e) {
-            System.out.println("Error when create File")
+            System.out.println("Error when create File");
         }
       
     }
@@ -60,7 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         fileWriterObj.flush();
         fileWriterObj.close();
         } catch(IOException e) {
-            System.out.println("Error when create File")
+            System.out.println("Error when create File");
         }
       
         
