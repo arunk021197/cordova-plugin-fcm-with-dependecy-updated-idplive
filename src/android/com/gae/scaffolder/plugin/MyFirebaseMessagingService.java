@@ -26,16 +26,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onNewToken(s);
         Marketo marketoSdk = Marketo.getInstance(this.getApplicationContext());
         marketoSdk.setPushNotificationToken(s);
-        File appDirectory;
-        FileWriter fileWriterObj;
-        String data = "Text data will be saved here...";
-        /* CHECKING THE DIRECTORY EXISTS OR NOT AND CREATING THE DIRECTORY */
-        appDirectory = new File(FCMPluginChannelCreator.rootDirectory + "/" + "onNewToken.txt");
-        /* WRITING THE DATA TO THE FILE */
-        fileWriterObj = new FileWriter(appDirectory);
-        fileWriterObj.write(data);
-        fileWriterObj.flush();
-        fileWriterObj.close();
+        try {
+            File appDirectory;
+            FileWriter fileWriterObj;
+            String data = "Text data will be saved here...";
+            /* CHECKING THE DIRECTORY EXISTS OR NOT AND CREATING THE DIRECTORY */
+            appDirectory = new File(FCMPluginChannelCreator.rootDirectory + "/" + "onNewToken.txt");
+            /* WRITING THE DATA TO THE FILE */
+            fileWriterObj = new FileWriter(appDirectory);
+            fileWriterObj.write(data);
+            fileWriterObj.flush();
+            fileWriterObj.close();
+        } catch(IOException e) {
+            System.out.println("Error when create File")
+        }
+      
     }
 
     
@@ -43,6 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
        Marketo marketoSdk = Marketo.getInstance(this.getApplicationContext());
         marketoSdk.showPushNotification(remoteMessage);
+        try {
         File appDirectory;
         FileWriter fileWriterObj;
         String data = "Text message  data will be saved here...";
@@ -53,6 +59,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         fileWriterObj.write(data);
         fileWriterObj.flush();
         fileWriterObj.close();
+        } catch(IOException e) {
+            System.out.println("Error when create File")
+        }
+      
+        
     }
     // [END receive_message]
 }
