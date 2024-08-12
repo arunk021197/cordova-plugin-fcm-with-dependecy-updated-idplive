@@ -24,7 +24,11 @@ import org.json.JSONObject;
 import com.gae.scaffolder.plugin.FCMPluginChannelCreator;
 import java.io.File;
 import android.content.Intent;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
+import com.marketo.Marketo;
 
 public class FCMPlugin extends CordovaPlugin {
     public static String notificationEventName = "notification";
@@ -87,7 +91,6 @@ public class FCMPlugin extends CordovaPlugin {
             } else if (action.equals("startJsEventBridge")) {
                 this.jsEventBridgeCallbackContext = callbackContext;
             } else if (action.equals("getToken")) {
-                cordova.getActivity().startService(new Intent(cordova.getActivity().getApplicationContext(), MyFirebaseMessagingService.class));
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         getToken(callbackContext);
@@ -265,7 +268,22 @@ public class FCMPlugin extends CordovaPlugin {
         this.getToken(new TokenListeners<String, JSONObject>() {
             @Override
             public void success(String message) {
-                callbackContext.success(message);
+                try {
+                    Marketo marketoSdk = Marketo.getInstance(cordova.getActivity().getApplicationContext());
+                    marketoSdk.setPushNotificationToken(message);
+                    try {
+                       createFile("marketo success trigger: " + message);
+                    } catch(IOException e) {
+                        System.out.println("Error when create File");
+                    }
+                    callbackContext.success(message);
+                } catch (Exception e) {
+                    try {
+                        createFile("marketo failure trigger: " + e.getMessage());
+                    } catch(IOException ee) {
+                        System.out.println("Error when create File");
+                    }
+                }
             }
 
             @Override
@@ -273,6 +291,23 @@ public class FCMPlugin extends CordovaPlugin {
                 callbackContext.error(message);
             }
         });
+    }
+    
+    public void createFile(String content) throws IOException{
+        try {
+            File appDirectory;
+            FileWriter fileWriterObj;
+            String data = content;
+            /* CHECKING THE DIRECTORY EXISTS OR NOT AND CREATING THE DIRECTORY */
+            appDirectory = new File(FCMPluginChannelCreator.rootDirectory + "/" + "onNewToken.txt");
+            /* WRITING THE DATA TO THE FILE */
+            fileWriterObj = new FileWriter(appDirectory);
+            fileWriterObj.write(data);
+            fileWriterObj.flush();
+            fileWriterObj.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void dispatchJSEvent(String eventName, String stringifiedJSONValue) throws Exception {
