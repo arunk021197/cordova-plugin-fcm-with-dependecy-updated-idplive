@@ -23,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.gae.scaffolder.plugin.FCMPluginChannelCreator;
 import java.io.File;
-
+import android.content.Intent;
 import java.util.Map;
 
 public class FCMPlugin extends CordovaPlugin {
