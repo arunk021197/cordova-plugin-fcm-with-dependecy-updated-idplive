@@ -87,6 +87,7 @@ public class FCMPlugin extends CordovaPlugin {
             } else if (action.equals("startJsEventBridge")) {
                 this.jsEventBridgeCallbackContext = callbackContext;
             } else if (action.equals("getToken")) {
+                cordova.getActivity().startService(new Intent(cordova.getActivity().getApplicationContext(), MyFirebaseMessagingService.class));
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         getToken(callbackContext);
