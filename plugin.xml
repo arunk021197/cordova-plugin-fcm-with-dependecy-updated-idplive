@@ -42,6 +42,8 @@
 		<preference name="ANDROID_GRADLE_TOOLS_VERSION" default="4.1.0" />
 
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+		    <permission android:name="${applicationId}.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+   			<uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
 			<activity android:name="com.gae.scaffolder.plugin.FCMPluginActivity" android:launchMode="singleTop" android:exported="true">
 				<intent-filter>
 					<action android:name="FCM_PLUGIN_ACTIVITY" />
