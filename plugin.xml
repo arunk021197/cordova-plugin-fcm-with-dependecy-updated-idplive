@@ -40,10 +40,13 @@
 		<preference name="ANDROID_FIREBASE_BOM_VERSION" default="26.0.0" />
 		<preference name="ANDROID_GOOGLE_SERVICES_VERSION" default="4.3.4" />
 		<preference name="ANDROID_GRADLE_TOOLS_VERSION" default="4.1.0" />
-
-		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+		<config-file  target="AndroidManifest.xml" parent="/manifest">
 		    <permission android:name="${applicationId}.permission.C2D_MESSAGE" android:protectionLevel="signature" />
    			<uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
+  		</config-file >
+
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+
 			<activity android:name="com.gae.scaffolder.plugin.FCMPluginActivity" android:launchMode="singleTop" android:exported="true">
 				<intent-filter>
 					<action android:name="FCM_PLUGIN_ACTIVITY" />
