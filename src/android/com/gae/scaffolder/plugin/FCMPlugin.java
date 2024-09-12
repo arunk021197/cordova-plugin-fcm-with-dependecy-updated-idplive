@@ -9,7 +9,6 @@ import com.gae.scaffolder.plugin.interfaces.*;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -21,6 +20,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.content.Intent;
 
 import java.util.Map;
 
@@ -179,39 +179,20 @@ public class FCMPlugin extends CordovaPlugin {
 
     public void getToken(final TokenListeners<String, JSONObject> callback) {
         try {
-            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                @Override
-                public void onComplete(Task<InstanceIdResult> task) {
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "getInstanceId failed", task.getException());
-                        try {
-                            callback.error(exceptionToJson(task.getException()));
-                        }
-                        catch (JSONException jsonErr) {
-                            Log.e(TAG, "Error when parsing json", jsonErr);
-                        }
-                        return;
-                    }
-
-                    // Get new Instance ID token
-                    String newToken = task.getResult().getToken();
-
-                    Log.i(TAG, "\tToken: " + newToken);
-                    callback.success(newToken);
-                }
-            });
-
-            FirebaseInstanceId.getInstance().getInstanceId().addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(final Exception e) {
-                    try {
-                        Log.e(TAG, "Error retrieving token: ", e);
-                        callback.error(exceptionToJson(e));
-                    } catch (JSONException jsonErr) {
-                        Log.e(TAG, "Error when parsing json", jsonErr);
-                    }
-                }
-            });
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+				@Override
+				public void onComplete(@NonNull Task<String> task) {
+					if (!task.isSuccessful()) {
+						Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+						return;
+					}
+					// Get new FCM registration token
+					String token = task.getResult();
+					System.out.println("token value is: " + token);
+					callback.success(jsonObject);
+					cordova.getActivity().startService(new Intent(cordova.getActivity().getApplicationContext(), MyFirebaseMessagingService.class));
+				}
+			});
         } catch (Exception e) {
             Log.w(TAG, "\tError retrieving token", e);
             try {
@@ -224,7 +205,7 @@ public class FCMPlugin extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
-                    FirebaseInstanceId.getInstance().deleteInstanceId();
+                   // FirebaseInstanceId.getInstance().deleteInstanceId();
                     callbackContext.success();
                 } catch (Exception e) {
                     callbackContext.error(e.getMessage());
