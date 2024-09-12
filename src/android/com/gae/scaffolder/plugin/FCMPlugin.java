@@ -189,9 +189,7 @@ public class FCMPlugin extends CordovaPlugin {
 					// Get new FCM registration token
 					String token = task.getResult();
 					System.out.println("token value is: " + token);
-					JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("token", token);
-                    callback.success(jsonObject);
+                    callback.success(token);
 					cordova.getActivity().startService(new Intent(cordova.getActivity().getApplicationContext(), MyFirebaseMessagingService.class));
 				}
 			});
