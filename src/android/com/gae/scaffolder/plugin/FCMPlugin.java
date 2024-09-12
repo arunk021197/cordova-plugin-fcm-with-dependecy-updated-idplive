@@ -9,7 +9,6 @@ import com.gae.scaffolder.plugin.interfaces.*;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.apache.cordova.CallbackContext;
@@ -189,7 +188,9 @@ public class FCMPlugin extends CordovaPlugin {
 					// Get new FCM registration token
 					String token = task.getResult();
 					System.out.println("token value is: " + token);
-					callback.success(jsonObject);
+					JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("token", token);
+                    callback.success(jsonObject);
 					cordova.getActivity().startService(new Intent(cordova.getActivity().getApplicationContext(), MyFirebaseMessagingService.class));
 				}
 			});
